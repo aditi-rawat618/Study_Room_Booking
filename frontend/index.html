@@ -136,11 +136,12 @@
         <div class="form-group">
             <label for="selectedRoom">Select Room</label>
             <select id="selectedRoom" required>
-                <option value="">Choose a room</option>
-                <option value="Individual Study Room">Individual Study Room</option>
-                <option value="Group Study Room">Group Study Room</option>
-                <option value="Computer Lab">Computer Lab</option>
-            </select>
+    <option value="">Choose a room</option>
+
+    <option ng-repeat="room in rooms" value="{{room._id}}">
+        {{room.roomName}} ({{room.roomNumber}})
+    </option>
+    </select>
         </div>
 
         <div class="form-group">

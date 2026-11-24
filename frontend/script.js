@@ -48,47 +48,41 @@ let bookings = JSON.parse(localStorage.getItem("bookings")) || [];
 
 // Display bookings
 function displayBookings() {
-    bookingList.innerHTML = "";
+    bookingList.innerHTML = "<p>Loading bookings...</p>";
 
-    if (bookings.length === 0) {
-        bookingList.innerHTML = `
-            <div class="empty-bookings">
-                <p>You haven't made any bookings yet.</p>
-            </div>
-        `;
-        return;
-    }
+    fetch("http://localhost:5000/api/bookings")
+        .then(response => response.json())
+        .then(data => {
+            bookingList.innerHTML = "";
 
-    bookings.forEach(function(booking) {
-        const card = document.createElement("div");
-        card.className = "booking-card";
+            if (data.length === 0) {
+                bookingList.innerHTML = `
+                    <div class="empty-bookings">
+                        <p>You haven't made any bookings yet.</p>
+                    </div>
+                `;
+                return;
+            }
 
-        card.innerHTML = `
-            <h3>${booking.room}</h3>
-            <p><strong>Name:</strong> ${booking.name}</p>
-            <p><strong>Date:</strong> ${booking.date}</p>
-            <p><strong>Time:</strong> ${booking.startTime} - ${booking.endTime}</p>
-            <p><strong>Status:</strong> Pending</p>
-        `;
+            data.forEach(function (booking) {
+                const card = document.createElement("div");
+                card.className = "booking-card";
 
-        // Cancel booking button
-const cancelBtn = document.createElement("button");
-cancelBtn.textContent = "Cancel Booking";
-cancelBtn.className = "cancel-btn";
+                card.innerHTML = `
+                    <h3>${booking.room?.roomName || "Study Room"}</h3>
+                    <p><strong>Student:</strong> ${booking.student?.name || "Student"}</p>
+                    <p><strong>Date:</strong> ${String(booking.bookingDate).slice(0, 10)}</p>
+                    <p><strong>Time:</strong> ${booking.startTime} - ${booking.endTime}</p>
+                    <p><strong>Status:</strong> ${booking.status}</p>
+                `;
 
-cancelBtn.addEventListener("click", function() {
-    const confirmCancel = confirm("Are you sure you want to cancel this booking?");
-
-    if (confirmCancel) {
-        bookings.splice(bookings.indexOf(booking), 1);
-        localStorage.setItem("bookings", JSON.stringify(bookings));
-        displayBookings();
-    }
-});
-
-card.appendChild(cancelBtn);
-bookingList.appendChild(card);
-    });
+                bookingList.appendChild(card);
+            });
+        })
+        .catch(error => {
+            bookingList.innerHTML = "<p>Unable to load bookings.</p>";
+            console.log(error);
+        });
 }
 
 // Submit Booking
@@ -101,6 +95,12 @@ bookingForm.addEventListener("submit", function(event) {
     const date = document.getElementById("bookingDate").value;
     const startTime = document.getElementById("startTime").value;
     const endTime = document.getElementById("endTime").value;
+    const studentId = localStorage.getItem("studentId");
+
+    if (!studentId) {
+    alert("Please register first!");
+    return;
+    }
 
     if (endTime <= startTime) {
         alert("End time must be later than start time!");
@@ -108,13 +108,12 @@ bookingForm.addEventListener("submit", function(event) {
     }
 
     const bookingData = {
-    studentName: name,
-    studentEmail: email,
+    student: studentId,
     room: room,
     bookingDate: date,
     startTime: startTime,
     endTime: endTime
-};
+    };
 
 fetch("http://localhost:5000/api/bookings", {
     method: "POST",
@@ -125,11 +124,12 @@ fetch("http://localhost:5000/api/bookings", {
 })
 .then(response => response.json())
 .then(data => {
-    if (data.message) {
-        alert(data.message);
-    } else {
+    if (data.booking) {
         alert("Booking submitted successfully!");
         bookingForm.reset();
+        displayBookings();
+    } else {
+        alert(data.message || "Booking failed.");
     }
 })
 .catch(error => {
@@ -137,7 +137,7 @@ fetch("http://localhost:5000/api/bookings", {
     console.log(error);
 });
 
-    bookingForm.reset();
+
 
     document.getElementById("myBookings").scrollIntoView({
         behavior: "smooth"
@@ -173,12 +173,17 @@ registrationForm.addEventListener("submit", function (event) {
         document.getElementById("registrationMessage").textContent = data.message;
 
         if (data.user) {
+            localStorage.setItem("studentId", data.user.id);
+            localStorage.setItem("studentName", data.user.name);
+            localStorage.setItem("studentEmail", data.user.email);
+
             registrationForm.reset();
         }
     })
     .catch(error => {
         document.getElementById("registrationMessage").textContent =
             "Registration failed. Please try again.";
+
         console.log(error);
     });
 });
