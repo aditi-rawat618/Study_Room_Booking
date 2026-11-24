@@ -34,9 +34,64 @@ nav a {
 
 /* Hero Section */
 .hero {
+    position: relative;
+    min-height: 430px;
     padding: 90px 8%;
     background: linear-gradient(135deg, #1e3a8a, #2563eb);
     color: white;
+}
+
+/* Registration card in the hero's top-right corner */
+#register.booking {
+    position: absolute;
+    top: 32px;
+    right: 8%;
+    z-index: 1;
+    width: 320px;
+    padding: 24px;
+    color: #1e293b;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.2);
+}
+
+#register h2 {
+    margin-bottom: 18px;
+    font-size: 23px;
+}
+
+#registrationForm {
+    display: grid;
+    gap: 12px;
+}
+
+#registrationForm input {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    font-size: 14px;
+}
+
+#registrationForm button {
+    padding: 12px;
+    color: #ffffff;
+    background: #2563eb;
+    border: 0;
+    border-radius: 7px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+#registrationForm button:hover {
+    background: #1e3a8a;
+}
+
+#registrationMessage {
+    margin-top: 12px;
+    color: #475569;
+    font-size: 14px;
 }
 
 .hero h1 {
@@ -358,4 +413,18 @@ footer {
 .room-card p {
     margin: 8px 0;
     color: #555;
+}
+
+@media (max-width: 800px) {
+    .hero {
+        min-height: 0;
+        padding: 60px 8%;
+    }
+
+    #register.booking {
+        position: static;
+        width: 100%;
+        max-width: 360px;
+        margin-top: 36px;
+    }
 }
