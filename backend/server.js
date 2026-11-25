@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./db');
-const bookingRoutes = require('./routes/bookingRoutes');
+const bookingRoutes = require('./routes/bookingroutes');
 const roomRoutes = require('./routes/roomRoutes');
 const userRoutes = require('./routes/userRoutes');
 
