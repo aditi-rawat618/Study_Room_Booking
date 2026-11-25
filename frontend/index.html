@@ -10,7 +10,7 @@
 <body ng-app="studySpaceApp" ng-controller="RoomController">
 
     <!-- Navigation -->
-    <nav id="top">
+    <nav>
         <div class="logo">StudySpace</div>
 
         <div>
@@ -21,7 +21,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
+    <section class="hero" id="top">
         <h1>Find
             Your 
             Perfect 
@@ -36,22 +36,23 @@
 
         <a href="#rooms" class="btn">Explore Rooms</a>
 
-        <section class="booking" id="register">
-            <h2>Student Registration</h2>
-
-            <form id="registrationForm">
-                <input type="text" id="regName" placeholder="Full Name" required>
-                <input type="email" id="regEmail" placeholder="Email Address" required>
-                <input type="password" id="regPassword" placeholder="Password" required>
-                <button type="submit">Register</button>
-            </form>
-
-            <p id="registrationMessage"></p>
-        </section>
     </section>
 
-    <section class="rooms" id="rooms">
-    <h2>Explore Our Spaces</h2>
+    <section class="rooms">
+    <section class="booking" id="register">
+        <h2>Student Registration</h2>
+
+        <form id="registrationForm">
+            <input type="text" id="regName" placeholder="Full Name" required>
+            <input type="email" id="regEmail" placeholder="Email Address" required>
+            <input type="password" id="regPassword" placeholder="Password" required>
+            <button type="submit">Register</button>
+        </form>
+
+        <p id="registrationMessage"></p>
+    </section>
+
+    <h2 id="rooms">Explore Our Spaces</h2>
 
     <div id="roomContainer">
         <p ng-if="loading">Loading rooms...</p>

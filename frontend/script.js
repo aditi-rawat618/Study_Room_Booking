@@ -54,8 +54,14 @@ function displayBookings() {
         .then(response => response.json())
         .then(data => {
             bookingList.innerHTML = "";
+            const now = new Date();
+            const currentBookings = data.filter(function (booking) {
+                const bookingDate = String(booking.bookingDate).slice(0, 10);
+                const endDateTime = new Date(bookingDate + "T" + booking.endTime);
+                return Number.isNaN(endDateTime.getTime()) || endDateTime >= now;
+            });
 
-            if (data.length === 0) {
+            if (currentBookings.length === 0) {
                 bookingList.innerHTML = `
                     <div class="empty-bookings">
                         <p>You haven't made any bookings yet.</p>
@@ -64,7 +70,7 @@ function displayBookings() {
                 return;
             }
 
-            data.forEach(function (booking) {
+            currentBookings.forEach(function (booking) {
                 const card = document.createElement("div");
                 card.className = "booking-card";
 

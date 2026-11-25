@@ -25,6 +25,9 @@ h1, h2, h3, .logo { font-family: 'Manrope', 'Segoe UI', sans-serif; }
 a { color: inherit; }
 
 nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
     min-height: 78px;
     padding: 0 max(6vw, calc((100vw - 1200px) / 2));
     display: flex;
@@ -40,6 +43,7 @@ nav a { text-decoration: none; color: #53666b; font-size: 14px; font-weight: 600
 nav a:hover { color: var(--brand); }
 
 .hero {
+    scroll-margin-top: 78px;
     position: relative;
     isolation: isolate;
     overflow: hidden;
@@ -67,7 +71,7 @@ nav a:hover { color: var(--brand); }
 
 #register.booking {
     position: relative;
-    width: 100%; padding: 27px; color: var(--ink); background: white; border: 1px solid rgba(255,255,255,.8);
+    width: min(100%, 420px); margin: 0 auto 50px; padding: 27px; color: var(--ink); background: white; border: 1px solid rgba(255,255,255,.8);
     border-radius: 18px; box-shadow: 0 24px 60px rgba(30,75,65,.15);
 }
 #register h2 { margin: 0 0 18px; font-size: 21px; letter-spacing: -.5px; }
@@ -128,11 +132,11 @@ footer p { margin: 0; }
     nav > div:last-child { gap: 15px; }
     nav a { font-size: 12px; }
     .logo { font-size: 19px; }
-    .hero { display: block; padding: 54px 6% 42px; }
+    .hero { display: block; padding: 54px 6% 42px; scroll-margin-top: 68px; }
     .hero h1, .hero > p { max-width: 100%; }
     .hero h1 { font-size: clamp(48px, 10vw, 58px); letter-spacing: -2px; }
     .hero > p { font-size: 15px; }
-    #register.booking { width: 100%; max-width: 420px; margin-top: 36px; }
+    #register.booking { margin-bottom: 38px; }
     .rooms, .features, .booking-section { padding: 58px 6%; }
     .room-container, .feature-container { gap: 14px; }
     .room-card, .feature-card { width: 100%; }
